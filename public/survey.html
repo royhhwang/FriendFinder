@@ -67,7 +67,7 @@
             </h5>
             <h6>You enjoy video games.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q1">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -83,7 +83,7 @@
             </h5>
             <h6>You find computer programmers attractive.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q2">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -99,7 +99,7 @@
             </h5>
             <h6>Arrow functions are a turn on.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q3">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -115,7 +115,7 @@
             </h5>
             <h6>Cheesecake Factory is an acceptable date spot.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q4">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -131,7 +131,7 @@
             </h5>
             <h6>Traveling abroad has always been a dream.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q5">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -147,7 +147,7 @@
             </h5>
             <h6>Who needs six-figure salaries when you have love.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q6">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -163,7 +163,7 @@
             </h5>
             <h6>A balanced checkbook is sexy.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q7">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -179,7 +179,7 @@
             </h5>
             <h6>It isn't a date without at least 5 good meals.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q8">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -195,7 +195,7 @@
             </h5>
             <h6>Music has only gotten better over the years.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q9">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -211,7 +211,7 @@
             </h5>
             <h6>Mars is the place to be.</h6>
             <div class="col l3">
-                <select class="browser-default">
+                <select class="browser-default user-answer" id="q10">
                     <option value="" disabled selected>Choose your option</option>
                     <option value="1">1 - Rather die</option>
                     <option value="2">2 - Hate it</option>
@@ -221,50 +221,69 @@
                 </select>
             </div>
         </div>
-        <div class="row">
-            <div class="col l12">
-                <button class="btn waves-effect waves-light submit-btn" type="submit" name="action" style="margin-bottom:16px">Submit
-                    <i class="material-icons right">send</i>
-                </button>
-            </div>
-        </div>
 
+        <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Submit</a>
         <div id="modal1" class="modal">
             <div class="modal-content">
-                <h4>Modal Header</h4>
-                <p>A bunch of text</p>
+                <h4>Here's the love of your life!</h4>
+                <p id="modal-name"></p>
+                <p id="modal-photo"></p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
             </div>
         </div>
     </div>
+    <br>
+    <hr class="my-2">
 
     <script type="text/javascript">
 
         $(document).ready(function () {
             $('select').material_select();
-
-            $(".submit-btn").on("click"), function (event) {
-                event.preventDefault();
-
-                var newPerson = {
-                    personName: $("#input-name").val().trim(),
-                    personPhoto: $("#input-url").val().trim(),
-                };
-
-                $.post("/api/friends", newPerson,
-                    function (data) {
-                        if (data) {
-                            $('.modal').modal();
-                        }
-                        else {
-                            alert("Sorry no matches!");
-                        }
-                        $("#input-name").val("");
-                        $("#input-url").val("");
-                    }
-                );
-
-            }
+            $('.modal').modal();
         });
+
+        $(".modal-trigger").on("click"), function (event) {
+
+            function validateForm() {
+                var isValid = true;
+                $(".validate").each(function () {
+                    if ($(this).val() === '')
+                        isValid = false;
+                });
+
+                $('.user-answer').each(function () {
+                    if ($(this).val() === "")
+                        isValid = false
+                })
+                return isValid;
+            };
+
+            if (validateForm() == true) {
+                var newPerson = {
+                    personName: $("#input-name").val(),
+                    personPhoto: $("#input-url").val(),
+                    scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val(),]
+                }
+                var currentURL = window.location.origin;
+
+                $.post(currentURL + "/api/friends", newPerson, function (data) {
+
+                    $("#modal-name").text(data.name);
+                    $('#modal-photo').attr("src", data.photo);
+
+                    // Show the modal with the best match 
+                    $('#modal1').modal('open');
+                });
+            }
+            else {
+                alert("Please fill out all fields before submitting!");
+            }
+
+            return false;
+        };
+
     </script>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-5.2.1.min.js"></script>
