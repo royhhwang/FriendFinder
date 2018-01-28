@@ -245,7 +245,6 @@
         });
 
         $(".modal-trigger").on("click"), function (event) {
-
             function validateForm() {
                 var isValid = true;
                 $(".validate").each(function () {
@@ -268,10 +267,10 @@
                 }
                 var currentURL = window.location.origin;
 
-                $.post(currentURL + "/api/friends", newPerson, function (data) {
+                $.post(currentURL + "/survey", newPerson, function (people) {
 
-                    $("#modal-name").text(data.name);
-                    $('#modal-photo').attr("src", data.photo);
+                    $("#modal-name").text(people.name);
+                    $('#modal-photo').attr("src", people.photo);
 
                     // Show the modal with the best match 
                     $('#modal1').modal('open');
